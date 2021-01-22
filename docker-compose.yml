@@ -4,6 +4,8 @@ networks:
   default:
     external:
       name: medication
+volumes:
+  my-volume:
 
 services:
   storemanagement:
@@ -36,6 +38,9 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
       - MYSQL_DATABASE=medicalfile
+    volumes:
+      - my-volume:/var/lib/mfmysql
+
     networks:
       default:
         aliases:
@@ -48,6 +53,9 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
       - MYSQL_DATABASE=storemanagement
+    volumes:
+      - my-volume:/var/lib/smmysql
+
     networks:
       default:
         aliases:
