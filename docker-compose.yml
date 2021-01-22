@@ -1,0 +1,55 @@
+version: "3.9"
+
+networks:
+  default:
+    external:
+      name: medication
+
+services:
+  storemanagement:
+    container_name: storemanagement
+    image: storemanagement
+    ports:
+      - 8085:8085
+    networks:
+      default:
+        aliases:
+          - storemanagement
+    depends_on:
+      - storemanagementdb
+  medicalfile:
+    container_name: medicalfile
+    image: medicalfile
+    ports:
+      - 8086:8086
+    networks:
+      default:
+        aliases:
+          - medicalfile
+    depends_on:
+      - medicalfiledb
+  medicalfiledb:
+    image: mysql
+    container_name: medicalfiledb
+    ports:
+      - 8088:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=medicalfile
+    networks:
+      default:
+        aliases:
+          - medicalfiledb
+  storemanagementdb:
+    image: mysql
+    container_name: storemanagementdb
+    ports:
+      - 8089:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=storemanagement
+    networks:
+      default:
+        aliases:
+          - storemanagementdb
+
